@@ -6,12 +6,13 @@ const imageMarkup = createGallery(galleryItems);
 galleryContainer.insertAdjacentHTML('beforeEnd', imageMarkup);
 galleryContainer.addEventListener('click', onImageClick);
 
+//добавляем запрет на открытие ссылок, но прописал это сразу при создании галлереи
+// const galleryLink = document.querySelectorAll('.gallery__link');
+// [...galleryLink].map(link => link.setAttribute('onclick', 'return false'));
+
 function createGallery(images) {
   return images
     .map(({ preview, original, description }) => {
-      // <a class="gallery__link" href="${original}"> вставить вместо <a> ниже
-      // target="_blank - открытие ссылки в новом окне
-      // onclick = "return false" - не выполняется переход
       return `
         <a class="gallery__link" href="${original}" onclick = "return false">
             <img
@@ -50,15 +51,10 @@ function onImageClick(event) {
   });
 
   createModal.show();
-}
 
-function onEscapePress(event) {
-  console.log(event.code);
-  return event.code;
+  function onEscapePress(event) {
+    if (event.code === 'Escape') {
+      createModal.close();
+    }
+  }
 }
-
-// event => {
-//   if (event.code === 'Escape') {
-//     createModal.close();
-//   }
-// };
